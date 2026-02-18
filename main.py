@@ -9,6 +9,8 @@ def main():
     tracker = TrackingModule()
     gesture_interpreter = GestureModule()
     canvas = DrawingModule(width=640, height=480)
+    canvas_only_mode = False
+
 
     print("AirDraw started. Press 'q' to quit, 'c' to clear canvas.")
 
@@ -28,13 +30,17 @@ def main():
         else:
             gesture_interpreter.reset()
 
-        # Overlay canvas on the annotated webcam feed
-        display = canvas.overlay(annotated_frame)
+        if canvas_only_mode:
+            # White background with just the drawing on top
+            display = canvas.overlay_on_white()
+            text_color = (0, 0, 0)  # black text on white background
+        else:
+            display = canvas.overlay(annotated_frame)
+            text_color = (255, 255, 255)
 
-        # Show gesture label
         gesture_label = gesture if landmark_data else "no hand"
         cv2.putText(display, f"Gesture: {gesture_label}", (10, 30),
-                    cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 255, 255), 2)
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.8, text_color, 2)
 
         cv2.imshow("AirDraw", display)
 
@@ -43,6 +49,8 @@ def main():
             break
         elif key == ord('c'):
             canvas.clear()
+        elif key == ord('v'):
+            canvas_only_mode = not canvas_only_mode
 
     capture.release()
     cv2.destroyAllWindows()

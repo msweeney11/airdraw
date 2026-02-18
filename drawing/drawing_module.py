@@ -92,7 +92,16 @@ class DrawingModule:
     # ------------------------------------------------------------------ #
     #  Rendering                                                           #
     # ------------------------------------------------------------------ #
-
+    def overlay_on_white(self):
+            """Returns the drawing on a plain white background, no webcam feed."""
+            white = np.ones((self.height, self.width, 3), dtype=np.uint8) * 255
+            bgr   = self.canvas[:, :, :3]
+            alpha = self.canvas[:, :, 3:4].astype(np.float32) / 255.0
+            white_f  = white.astype(np.float32)
+            canvas_f = bgr.astype(np.float32)
+            blended  = white_f * (1 - alpha) + canvas_f * alpha
+            return blended.astype(np.uint8)
+    
     def overlay(self, frame: np.ndarray) -> np.ndarray:
         """
         Composites the drawing canvas over the webcam frame.
