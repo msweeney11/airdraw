@@ -27,7 +27,7 @@ Gesture-based air drawing application using MediaPipe Hands and OpenCV.
 
 | Gesture | Action |
 |---|---|
-| Index finger extended + pinch (thumb meets index tip) | Draw |
+| Index finger extended + other fingers curled into fist | Draw |
 | Open palm (all 4 fingers extended) | Erase |
 | Any other shape / fist | Idle (lift pen) |
 | Press `c` | Clear canvas |
@@ -46,7 +46,7 @@ airdraw/
 │   └── gesture_module.py        # Landmark-distance gesture classification
 ├── drawing/
 │   └── drawing_module.py        # Canvas, brush state, stroke rendering
-├── ui/                          # UI overlays and menus (Week 4+)
+├── ui/                          # UI overlays and menus
 ├── requirements.txt
 └── README.md
 ```
