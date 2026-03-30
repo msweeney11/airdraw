@@ -4,7 +4,6 @@ import numpy as np
 # --- Default brush/tool state ---
 DEFAULT_COLOR      = (0, 0, 255)   # Red in BGR
 DEFAULT_BRUSH_SIZE = 5
-ERASER_SIZE        = 40
 CANVAS_ALPHA       = 0.6           # Blend weight of canvas over webcam feed
 
 
@@ -80,7 +79,7 @@ class DrawingModule:
         Erases a circular region by zeroing out the canvas alpha channel.
         This is non-destructive relative to the webcam feed.
         """
-        cv2.circle(self.canvas, (x, y), ERASER_SIZE, (0, 0, 0, 0), -1)
+        cv2.circle(self.canvas, (x, y), self.brush_size * 3, (0, 0, 0, 0), -1)
         self._prev_position = None
         self._is_drawing    = False
 
@@ -145,4 +144,13 @@ class DrawingModule:
         y = max(0, min(self.height - 1, y))
         return x, y
 
+    def overlay_on_white(self):
+        """Returns the drawing on a plain white background, no webcam feed."""
+        white    = np.ones((self.height, self.width, 3), dtype=np.uint8) * 255
+        bgr      = self.canvas[:, :, :3]
+        alpha    = self.canvas[:, :, 3:4].astype(np.float32) / 255.0
+        white_f  = white.astype(np.float32)
+        canvas_f = bgr.astype(np.float32)
+        blended  = white_f * (1 - alpha) + canvas_f * alpha
+        return blended.astype(np.uint8)
 
