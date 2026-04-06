@@ -1,14 +1,17 @@
 import cv2
+import platform
 
 class CaptureModule:
     """
     OpenCV wrapper for webcam capture.
     Handles frame acquisition and basic preprocessing (flip for mirror effect).
     """
-
     def __init__(self, camera_index=0, width=640, height=480):
-        ## self.cap = cv2.VideoCapture(camera_index) USE THIS IF YOU ARE ON WINDOWS, COMMENT OUT LINE BELOW THIS
-        self.cap = cv2.VideoCapture(camera_index, cv2.CAP_AVFOUNDATION)
+        if platform.system() == "Darwin":
+            self.cap = cv2.VideoCapture(camera_index, cv2.CAP_AVFOUNDATION)
+        else:
+            self.cap = cv2.VideoCapture(camera_index)
+
         self.cap.set(cv2.CAP_PROP_FRAME_WIDTH, width)
         self.cap.set(cv2.CAP_PROP_FRAME_HEIGHT, height)
 
@@ -28,5 +31,3 @@ class CaptureModule:
 
     def release(self):
         self.cap.release()
-
-
