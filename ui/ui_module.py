@@ -19,6 +19,7 @@ COLORS = [
     ("Red",    (0,   0,   255)),
     ("Blue",   (255, 0,   0  )),
     ("Green",  (0,   200, 0  )),
+    ("Yellow", (0,   255, 255)),
     ("Black",  (0,   0,   0  )),
 ]
 
@@ -233,3 +234,5 @@ class UIModule:
             return True
 
         return False
+    
+    

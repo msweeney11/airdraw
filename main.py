@@ -25,6 +25,7 @@ def main():
 
     while True:
         frame = capture.read_frame()
+        
         if frame is None:
             print("Error: Could not read from webcam.")
             break
@@ -49,7 +50,7 @@ def main():
         else:
             display    = canvas.overlay(annotated_frame)
             text_color = (255, 255, 255)
-
+        
         # --- UI overlay (palette + slider) ---
         display = ui.update(display, position, gesture, canvas)
         if canvas_only_mode:
@@ -60,6 +61,8 @@ def main():
         cv2.putText(display, f"Gesture: {gesture_label}", (10, 30),
                     cv2.FONT_HERSHEY_SIMPLEX, 0.8, text_color, 2)
 
+        cv2.namedWindow("AirDraw", cv2.WINDOW_NORMAL)
+        cv2.setWindowProperty("AirDraw", cv2.WND_PROP_ASPECT_RATIO, cv2.WINDOW_KEEPRATIO)
         cv2.imshow("AirDraw", display)
 
         key = cv2.waitKey(1) & 0xFF
@@ -71,6 +74,7 @@ def main():
             canvas_only_mode = not canvas_only_mode
         elif key == ord('s'):
             ui.save(canvas, canvas_only_mode, webcam_frame=latest_frame)
+        
 
     capture.release()
     cv2.destroyAllWindows()
