@@ -40,9 +40,6 @@ class GestureModule:
                  Position follows the center of the palm (index MCP).
 
         idle   - Any other hand shape; no drawing action.
-
-    Gesture set is intentionally minimal. Future gestures
-    (color selection, brush size, undo) can be added to interpret().
     """
 
 

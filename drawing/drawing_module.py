@@ -29,8 +29,7 @@ class DrawingModule:
         self.canvas = np.zeros((height, width, 4), dtype=np.uint8)
 
         # --- Brush / tool state ---
-        # These are intentionally public so a future UI module can modify them.
-        self.brush_color = DEFAULT_COLOR   # BGR tuple
+        self.brush_color = DEFAULT_COLOR   
         self.brush_size  = DEFAULT_BRUSH_SIZE
         self.active_tool = "brush"         # "brush" | "eraser" (future: "fill", etc.)
 
@@ -84,7 +83,7 @@ class DrawingModule:
         self._is_drawing    = False
 
     def _handle_idle(self):
-        """Lifts the pen — next draw gesture will start a new stroke."""
+        """Lifts the pen, next draw gesture will start a new stroke."""
         self._prev_position = None
         self._is_drawing    = False
 
